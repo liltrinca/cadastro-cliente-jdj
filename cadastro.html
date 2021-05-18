@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<meta charset="utf-8">
+    <head>
+        <title>Cadastro</title>
+    </head>
+    <body>
+
+        <h1>Cadastrar-se</h1>
+        <form id="formCadastro">
+            <input id="cadNome" type="text" /> <label for="cadNome">Nome</label> <br />
+            <input id="cadEmail" type="text" /> <label for="cadEmail">Email</label> <br />
+            <input id="cadCPF" type="number" /> <label for="cadCPF">CPF</label> <br />
+            <input id="cadPIS" type="number" /> <label for="cadPIS">PIS</label> <br />
+            <input id="cadSenha" type="text" /> <label for="cadSenha">Senha</label> <br />
+        </form>
+        <div>
+            <input id="cadEndCEP" /><label for="cadEndCEP">CEP</label> <br />
+            <input id="cadEndRua" /><label for="cadEndRua">Rua</label>
+            <input id="cadEndNumero" /><label for="cadEndNumero">Numero</label>
+            <input id="cadEndComplemento" /><label for="cadEndComplemento">Complemento</label>
+            <input id="cadEndMunicipio" /><label for="cadEndMunicipio">Município</label>
+            <input id="cadEndEstado" /><label for="cadEndEstado">Estado</label>
+            <input id="cadEndPais" /><label for="cadEndPais">País</label>
+        </div>
+        <button id="regBtn" onclick="regClick()">Registrar-se</button>
+        <button id="voltarBtn" onclick="voltarClick()">Voltar</button>
+
+        <script type="text/javascript">
+            $("#cadEndCEP").focusout(function(){
+		        $.ajax({
+			        url: 'https://viacep.com.br/ws/'+$(this).val()+'/json/unicode/',
+			        dataType: 'json',
+			        success: function(resposta){
+				        $("#cadEndRua").val(resposta.logradouro);
+				        $("#cadEndComplemento").val(resposta.complemento);
+				        $("#cadEndMunicipio").val(resposta.cidade);
+				        $("#cadEndEstado").val(resposta.uf);
+                        $("#cadEndPais").val("Brasil");
+				        $("#cadEndNumero").focus();
+			        },
+		        });		
+            });
+
+            function regClick(){
+                console.log("Clicked")
+            }
+
+            function voltarClick(){
+                window.location.href = "home.html";
+            }
+        </script>
+
+    </body>
+</html>
