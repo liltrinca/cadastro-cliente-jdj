@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div id="login-div">
+        <h1>Olá, <span id="name">visitante</span></h1>
+        <form action="" id="loginForm" onsubmit="teste()">
+            <input type="text" id="loginName" placeholder="Email, CPF ou PIS"> <br />
+            <input type="password" id="loginPass" placeholder="Senha"> <br />
+            <input type="submit" id="btnLogin" value="Login">
+        </form>
+        <p>Ainda não cadastrado? <a href="cadastro.html">Cadastre-se</a> agora.</p>
+    </div>
+
+    <script>
+        function teste() {
+            var nomeAtual = document.getElementById("loginName").value
+            document.write("Olá " + nomeAtual);
+        }
+    </script>
+</body>
+
+</html>

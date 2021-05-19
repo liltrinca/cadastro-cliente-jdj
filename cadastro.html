@@ -1,56 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<meta charset="utf-8">
-    <head>
-        <title>Cadastro</title>
-    </head>
-    <body>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <div>
         <h1>Cadastrar-se</h1>
         <form id="formCadastro">
-            <input id="cadNome" type="text" /> <label for="cadNome">Nome</label> <br />
-            <input id="cadEmail" type="text" /> <label for="cadEmail">Email</label> <br />
-            <input id="cadCPF" type="number" /> <label for="cadCPF">CPF</label> <br />
-            <input id="cadPIS" type="number" /> <label for="cadPIS">PIS</label> <br />
-            <input id="cadSenha" type="text" /> <label for="cadSenha">Senha</label> <br />
+            <input id="cadNome" type="text" placeholder="Nome"> <br />
+            <input id="cadEmail" type="email" placeholder="Email"> <br />
+            <input id="cadCPF" type="number" placeholder="CPF"> <br />
+            <input id="cadPIS" type="number" placeholder="PIS"> <br />
+            <input id="cadSenha" type="password" placeholder="Senha"> <br />
+            <input id="cadEndCEP" type="number" placeholder="CEP"> <br />
+            <input id="cadEndRua" type="text" placeholder="Rua">
+            <input id="cadEndNumero" type="number" placeholder="Número"> <br />
+            <input id="cadEndComplemento" type="text" placeholder="Complemento"> <br />
+            <input id="cadEndMunicipio" type="text" placeholder="Município"> <br />
+            <input id="cadEndEstado" type="text" placeholder="Estado"> <br />
+            <input id="cadEndPais" type="text" placeholder="País"> <br />
+            <input id="btnRegistrar" type="submit" value="Registrar-se">
         </form>
-        <div>
-            <input id="cadEndCEP" /><label for="cadEndCEP">CEP</label> <br />
-            <input id="cadEndRua" /><label for="cadEndRua">Rua</label>
-            <input id="cadEndNumero" /><label for="cadEndNumero">Numero</label>
-            <input id="cadEndComplemento" /><label for="cadEndComplemento">Complemento</label>
-            <input id="cadEndMunicipio" /><label for="cadEndMunicipio">Município</label>
-            <input id="cadEndEstado" /><label for="cadEndEstado">Estado</label>
-            <input id="cadEndPais" /><label for="cadEndPais">País</label>
-        </div>
-        <button id="regBtn" onclick="regClick()">Registrar-se</button>
-        <button id="voltarBtn" onclick="voltarClick()">Voltar</button>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/consultaCPF.js"></script>
+    <script type="text/javascript" src="js/registro.js"></script>
+</body>
 
-        <script type="text/javascript">
-            $("#cadEndCEP").focusout(function(){
-		        $.ajax({
-			        url: 'https://viacep.com.br/ws/'+$(this).val()+'/json/unicode/',
-			        dataType: 'json',
-			        success: function(resposta){
-				        $("#cadEndRua").val(resposta.logradouro);
-				        $("#cadEndComplemento").val(resposta.complemento);
-				        $("#cadEndMunicipio").val(resposta.cidade);
-				        $("#cadEndEstado").val(resposta.uf);
-                        $("#cadEndPais").val("Brasil");
-				        $("#cadEndNumero").focus();
-			        },
-		        });		
-            });
-
-            function regClick(){
-                console.log("Clicked")
-            }
-
-            function voltarClick(){
-                window.location.href = "home.html";
-            }
-        </script>
-
-    </body>
 </html>
