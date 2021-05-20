@@ -4,26 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <title>Login</title>
 </head>
 
 <body>
-    <div id="login-div">
-        <h1>Olá, <span id="name">visitante</span></h1>
+    <div id="loginDiv" class="hide">
+        <h1>Olá, visitante</h1>
         <form action="" id="loginForm" onsubmit="teste()">
             <input type="text" id="loginName" placeholder="Email, CPF ou PIS"> <br />
             <input type="password" id="loginPass" placeholder="Senha"> <br />
-            <input type="submit" id="btnLogin" value="Login">
+            <button id="btnLogin">Login</button>
         </form>
         <p>Ainda não cadastrado? <a href="cadastro.html">Cadastre-se</a> agora.</p>
     </div>
 
-    <script>
-        function teste() {
-            var nomeAtual = document.getElementById("loginName").value
-            document.write("Olá " + nomeAtual);
-        }
-    </script>
+    <div id="loggedDiv" class="hide">
+        <h1>Olá, <span id="userSpan"></span></h1>
+        <p>Isto é um teste</p>
+        <button id="btnLogout">Logout</button>
+        <button id="btnDeleteUser">Excluir Usuário</button>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+
+    <script src="js/firebaseconfig.js"></script>
+
+    <script src="js/index.js"></script>
+
 </body>
 
 </html>

@@ -1,5 +1,4 @@
-let regVisitante = [];
-const cadastrar = (ev)=>{
+const cadastrar = (ev) => {
     ev.preventDefault();
     let cadastroAtual = {
         id: regVisitante.length,
@@ -16,10 +15,26 @@ const cadastrar = (ev)=>{
         estado: document.getElementById("cadEndEstado").value,
         pais: document.getElementById("cadEndPais").value
     }
-    regVisitante.push(cadastroAtual);
-
-    console.warn('added', {regVisitante});
-    console.log(regVisitante);
 }
-document.getElementById('btnRegistrar').addEventListener('click', cadastrar);
-    
+
+function cadastroFirebase(ev){
+    ev.preventDefault();
+    var email = document.getElementById("cadEmail").value;
+    var pass = document.getElementById("cadSenha").value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, pass)
+    .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        window.location.replace('index.html');
+    })
+    .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
+        window.alert(errorCode + "\n" + errorMessage);
+    });
+}
+
+//Button Listeners
+document.getElementById('btnRegistrar').addEventListener('click', cadastroFirebase);
