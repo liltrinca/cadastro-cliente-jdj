@@ -1,7 +1,11 @@
-const cadastrar = (ev) => {
+var db = firebase.firestore();
+
+function cadastroFirebase(ev){
     ev.preventDefault();
-    let cadastroAtual = {
-        id: regVisitante.length,
+    var email = document.getElementById("cadEmail").value;
+    var pass = document.getElementById("cadSenha").value;
+
+    db.collection("users").doc(email).set({
         nome: document.getElementById("cadNome").value,
         email: document.getElementById("cadEmail").value,
         cpf: document.getElementById("cadCPF").value,
@@ -14,13 +18,13 @@ const cadastrar = (ev) => {
         municipio: document.getElementById("cadEndMunicipio").value,
         estado: document.getElementById("cadEndEstado").value,
         pais: document.getElementById("cadEndPais").value
-    }
-}
-
-function cadastroFirebase(ev){
-    ev.preventDefault();
-    var email = document.getElementById("cadEmail").value;
-    var pass = document.getElementById("cadSenha").value;
+    })
+    .then(() => {
+        console.log("Document written with ID: ", email);
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+    });
 
     firebase.auth().createUserWithEmailAndPassword(email, pass)
     .then((userCredential) => {

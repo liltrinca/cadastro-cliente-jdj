@@ -21,9 +21,28 @@
 
     <div id="loggedDiv" class="hide">
         <h1>Olá, <span id="userSpan"></span></h1>
-        <p>Isto é um teste</p>
         <button id="btnLogout">Logout</button>
+        <button id="btnEdit">Editar dados</button>
         <button id="btnDeleteUser">Excluir Usuário</button>
+    </div>
+
+    <div id="editDiv" class = "hide">
+        <h1>Modificar seus dados</h1>
+        <form id="formEdit">
+            <input id="editNome" type="text" placeholder="Nome"> <br />
+            <input id="editEmail" type="email" placeholder="Email"> <br />
+            <input id="editCPF" type="number" placeholder="CPF"> <br />
+            <input id="editPIS" type="number" placeholder="PIS"> <br />
+            <input id="editSenha" type="password" placeholder="Senha"> <br />
+            <input id="editEndCEP" type="number" placeholder="CEP"> <br />
+            <input id="editEndRua" type="text" placeholder="Rua">
+            <input id="editEndNumero" type="number" placeholder="Número"> <br />
+            <input id="editEndComplemento" type="text" placeholder="Complemento"> <br />
+            <input id="editEndMunicipio" type="text" placeholder="Município"> <br />
+            <input id="editEndEstado" type="text" placeholder="Estado"> <br />
+            <input id="editEndPais" type="text" placeholder="País"> <br />
+        </form>
+        <button id="btnConfirmEdit">Editar</button>
     </div>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -33,9 +52,9 @@
     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
 
     <script src="js/firebaseconfig.js"></script>
-
     <script src="js/index.js"></script>
 
 </body>
