@@ -118,6 +118,20 @@ function confirmEdit() {
       })
         .then(() => {
           console.log("Document successfully updated!");
+          if (doc.data().email != document.getElementById('editEmail').value) {
+            user.updateEmail(document.getElementById('editEmail').value).then(function() {
+              // Update successful.
+            }).catch(function(error) {
+              console.log(error);
+            });
+          }
+          if (doc.data().senha != document.getElementById('editSenha').value) {
+            user.updatePassword(document.getElementById('editSenha').value).then(function() {
+              console.log("Senha alterada");
+            }).catch(function(error) {
+              console.log(error);
+            });
+          }
           window.location.reload();
         })
         .catch((error) => {
@@ -133,9 +147,16 @@ function confirmEdit() {
   });
 }
 
+function voltar() {
+  loggedDiv.classList.remove('hide');
+  loginDiv.classList.add('hide');
+  editDiv.classList.add('hide');
+}
+
 //Button Listeners
 document.getElementById('btnLogin').addEventListener('click', logar);
 document.getElementById('btnLogout').addEventListener('click', deslogar);
 document.getElementById('btnDeleteUser').addEventListener('click', deletar);
 document.getElementById('btnEdit').addEventListener('click', editar);
 document.getElementById('btnConfirmEdit').addEventListener('click', confirmEdit);
+document.getElementById('btnVoltar').addEventListener('click', voltar);

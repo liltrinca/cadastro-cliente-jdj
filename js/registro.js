@@ -40,5 +40,10 @@ function cadastroFirebase(ev){
     });
 }
 
+function voltar() {
+    window.location.replace('index.html');
+}
+
 //Button Listeners
 document.getElementById('btnRegistrar').addEventListener('click', cadastroFirebase);
+document.getElementById('btnVoltar').addEventListener('click', voltar);

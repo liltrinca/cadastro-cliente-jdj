@@ -9,40 +9,53 @@
 </head>
 
 <body>
-    <div id="loginDiv" class="hide">
-        <h1>Olá, visitante</h1>
+    <div id="loginDiv" class="box hide">
+        <h1>Olá, visitante</h1> <br />
         <form action="" id="loginForm" onsubmit="teste()">
-            <input type="text" id="loginName" placeholder="Email, CPF ou PIS"> <br />
-            <input type="password" id="loginPass" placeholder="Senha"> <br />
+            <input type="text" id="loginName" placeholder="Email, CPF ou PIS" required>
+            <input type="password" id="loginPass" placeholder="Senha" required>
             <button id="btnLogin">Login</button>
         </form>
         <p>Ainda não cadastrado? <a href="cadastro.html">Cadastre-se</a> agora.</p>
     </div>
 
-    <div id="loggedDiv" class="hide">
+    <div id="loggedDiv" class="box hide">
         <h1>Olá, <span id="userSpan"></span></h1>
         <button id="btnLogout">Logout</button>
         <button id="btnEdit">Editar dados</button>
         <button id="btnDeleteUser">Excluir Usuário</button>
     </div>
 
-    <div id="editDiv" class = "hide">
+    <div id="editDiv" class = "box hide">
         <h1>Modificar seus dados</h1>
         <form id="formEdit">
-            <input id="editNome" type="text" placeholder="Nome"> <br />
-            <input id="editEmail" type="email" placeholder="Email"> <br />
-            <input id="editCPF" type="number" placeholder="CPF"> <br />
-            <input id="editPIS" type="number" placeholder="PIS"> <br />
-            <input id="editSenha" type="password" placeholder="Senha"> <br />
-            <input id="editEndCEP" type="number" placeholder="CEP"> <br />
+            <p>Nome</p>
+            <input id="editNome" type="text" placeholder="Nome">
+            <p>Email</p>
+            <input id="editEmail" type="email" placeholder="Email">
+            <p>CPF</p>
+            <input id="editCPF" type="number" placeholder="CPF">
+            <p>PIS</p>
+            <input id="editPIS" type="number" placeholder="PIS">
+            <p>Senha</p>
+            <input id="editSenha" type="password" placeholder="Senha">
+            <p>CEP</p>
+            <input id="editEndCEP" type="number" placeholder="CEP">
+            <p>Rua</p>
             <input id="editEndRua" type="text" placeholder="Rua">
-            <input id="editEndNumero" type="number" placeholder="Número"> <br />
-            <input id="editEndComplemento" type="text" placeholder="Complemento"> <br />
-            <input id="editEndMunicipio" type="text" placeholder="Município"> <br />
-            <input id="editEndEstado" type="text" placeholder="Estado"> <br />
-            <input id="editEndPais" type="text" placeholder="País"> <br />
+            <p>Numero</p>
+            <input id="editEndNumero" type="number" placeholder="Número">
+            <p>Complemento</p>
+            <input id="editEndComplemento" type="text" placeholder="Complemento">
+            <p>Municipio</p>
+            <input id="editEndMunicipio" type="text" placeholder="Município">
+            <p>Estado</p>
+            <input id="editEndEstado" type="text" placeholder="Estado">
+            <p>País</p>
+            <input id="editEndPais" type="text" placeholder="País">
         </form>
         <button id="btnConfirmEdit">Editar</button>
+        <button id="btnVoltar">Voltar</button>
     </div>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->

@@ -4,27 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Cadastro</title>
 </head>
 
 <body>
-    <div>
+    <div id="cadastroDiv" class="box">
         <h1>Cadastrar-se</h1>
         <form id="formCadastro">
-            <input id="cadNome" type="text" placeholder="Nome"> <br />
-            <input id="cadEmail" type="email" placeholder="Email"> <br />
-            <input id="cadCPF" type="number" placeholder="CPF"> <br />
-            <input id="cadPIS" type="number" placeholder="PIS"> <br />
-            <input id="cadSenha" type="password" placeholder="Senha"> <br />
-            <input id="cadEndCEP" type="number" placeholder="CEP"> <br />
-            <input id="cadEndRua" type="text" placeholder="Rua">
-            <input id="cadEndNumero" type="number" placeholder="Número"> <br />
-            <input id="cadEndComplemento" type="text" placeholder="Complemento"> <br />
-            <input id="cadEndMunicipio" type="text" placeholder="Município"> <br />
-            <input id="cadEndEstado" type="text" placeholder="Estado"> <br />
-            <input id="cadEndPais" type="text" placeholder="País"> <br />
-            <input id="btnRegistrar" type="submit" value="Registrar-se">
+            <input id="cadNome" type="text" placeholder="Nome" required>
+            <input id="cadEmail" type="email" placeholder="Email" required>
+            <input id="cadSenha" type="password" placeholder="Senha" required>
+            <input id="cadCPF" type="number" placeholder="CPF" required>
+            <input id="cadPIS" type="number" placeholder="PIS" required>
+            <input id="cadEndCEP" type="number" placeholder="CEP" required>
+            <input id="cadEndRua" type="text" placeholder="Rua" required>
+            <input id="cadEndNumero" type="number" placeholder="Número" required>
+            <input id="cadEndComplemento" type="text" placeholder="Complemento">
+            <input id="cadEndMunicipio" type="text" placeholder="Município" required>
+            <input id="cadEndEstado" type="text" placeholder="Estado" required>
+            <input id="cadEndPais" type="text" placeholder="País" required>
         </form>
+            <button id="btnRegistrar">Registrar-se</button>
+            <button id="btnVoltar">Voltar</button>
     </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
