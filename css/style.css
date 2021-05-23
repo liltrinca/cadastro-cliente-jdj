@@ -18,7 +18,7 @@ body {
   flex-flow: column wrap;
   max-width: 800px;
   width: 100%;
-  background: white;
+  background: #fff;
   text-align: center;
   padding: 50px;
   border-radius: 25px;

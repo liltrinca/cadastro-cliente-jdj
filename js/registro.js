@@ -1,16 +1,14 @@
 var db = firebase.firestore();
 
-function cadastroFirebase(ev){
+function cadastroFirebase(ev) {
     ev.preventDefault();
-    var email = document.getElementById("cadEmail").value;
-    var pass = document.getElementById("cadSenha").value;
-
-    db.collection("users").doc(email).set({
+    var userEmail = document.getElementById("cadEmail").value;
+    var userPassword = document.getElementById("cadSenha").value;
+    var userData = {
         nome: document.getElementById("cadNome").value,
-        email: document.getElementById("cadEmail").value,
+        email: userEmail,
         cpf: document.getElementById("cadCPF").value,
         pis: document.getElementById("cadPIS").value,
-        senha: document.getElementById("cadSenha").value,
         cep: document.getElementById("cadEndCEP").value,
         rua: document.getElementById("cadEndRua").value,
         numero: document.getElementById("cadEndNumero").value,
@@ -18,26 +16,28 @@ function cadastroFirebase(ev){
         municipio: document.getElementById("cadEndMunicipio").value,
         estado: document.getElementById("cadEndEstado").value,
         pais: document.getElementById("cadEndPais").value
-    })
-    .then(() => {
-        console.log("Document written with ID: ", email);
-    })
-    .catch((error) => {
-        console.error("Error adding document: ", error);
-    });
+    };
 
-    firebase.auth().createUserWithEmailAndPassword(email, pass)
-    .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        window.location.replace('index.html');
-    })
-    .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        
-        window.alert(errorCode + "\n" + errorMessage);
-    });
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+            db.collection("users").doc(user.uid).set(userData)
+                .then(() => {
+                    console.log("Document written with ID: ", user.uid);
+                    window.alert("Cadastrado com sucesso\nRedirecionando...");
+                    window.location.replace('index.html');
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            window.alert(errorCode + "\n" + errorMessage);
+        });
 }
 
 function voltar() {
