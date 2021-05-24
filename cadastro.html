@@ -14,7 +14,7 @@
         <form id="formCadastro">
             <input id="cadNome" type="text" placeholder="Nome" required>
             <input id="cadEmail" type="email" placeholder="Email" required>
-            <input id="cadSenha" type="password" placeholder="Senha" required>
+            <input id="cadSenha" type="password" placeholder="Senha" required minlength="6" maxlength="30">
             <input id="cadCPF" type="number" placeholder="CPF" required>
             <input id="cadPIS" type="number" placeholder="PIS" required>
             <input id="cadEndCEP" type="number" placeholder="CEP" required>
@@ -24,9 +24,9 @@
             <input id="cadEndMunicipio" type="text" placeholder="Município" required>
             <input id="cadEndEstado" type="text" placeholder="Estado" required>
             <input id="cadEndPais" type="text" placeholder="País" required>
-        </form>
             <button id="btnRegistrar">Registrar-se</button>
             <button id="btnVoltar">Voltar</button>
+        </form>
     </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

@@ -13,6 +13,10 @@ body {
   background: #5CB83B
 }
 
+input:invalid {
+  border: 2px solid red;
+}
+
 .box {
   display: flex;
   flex-flow: column wrap;
@@ -22,7 +26,7 @@ body {
   text-align: center;
   padding: 50px;
   border-radius: 25px;
-  box-shadow: 10px 10px 100px black;
+  box-shadow: 10px 10px 100px #000;
 }
 
 p {

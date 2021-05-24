@@ -1,13 +1,16 @@
+//Inicializar o Firestore
 var db = firebase.firestore();
 
-//Logged Check
+//Checar se o usuário está conectado
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    // User is signed in.
+    //Usuário está conectado
     loggedDiv.classList.remove('hide');
     loginDiv.classList.add('hide');
+    //Coletar dados do usuário atual
     var currentUserData = db.collection("users").doc(user.uid);
 
+    //Adicionar os dados do usuário atual à tela de edição
     currentUserData.get().then((doc) => {
       if (doc.exists) {
         document.getElementById("userSpan").innerHTML = doc.data().nome;
@@ -23,43 +26,56 @@ firebase.auth().onAuthStateChanged(function (user) {
         document.getElementById('editEndEstado').value = doc.data().estado;
         document.getElementById('editEndPais').value = doc.data().pais;
       } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
+        console.log("Não foram encontrados dados para passar à tela de edição");
       }
     }).catch((error) => {
-      console.log("Error getting document:", error);
+      //Erros ao solicitar dados
+      console.log("Erro ao solicitar dados do Firestore:", error);
     });
 
     function confirmEdit() {
+      //Confirmação com senha
       authPass = prompt("Insira sua senha");
+
+      //Inicializar credenciais
       var credential = firebase.auth.EmailAuthProvider.credential(
         user.email,
         authPass
       );
 
-      user.reauthenticateWithCredential(credential).then(function() {
+      //Verificar se o usuário está credenciado
+      user.reauthenticateWithCredential(credential).then(function () {
         if (document.getElementById('editSenha').value != "") {
           user.updatePassword(document.getElementById('editSenha').value).then(function () {
-            window.alert("senha alterada");
+            window.location.reload();
+            window.alert("Sua senha foi alterada com sucesso");
           }).catch(function (error) {
+            //Erros ao alterar senha
+            window.alert("Não foi possível alterar sua senha.\n" + error);
             console.log(error);
           });
         }
-      }).catch(function(error) {
-        // An error happened.
+      }).catch(function (error) {
+        //Erros ao verificar credenciais
+        console.log(error);
       });
 
       user.reauthenticateWithCredential(credential).then(function () {
         if (user.email != document.getElementById('editEmail').value) {
           user.updateEmail(document.getElementById('editEmail').value).then(function () {
-            window.alert("email alterado");
+            window.alert("Seu email foi alterado com sucesso");
+            window.location.reload();
           }).catch(function (error) {
+            //Erros ao alterar email
             console.log(error);
+            window.alert("Não foi possível alterar seu email.\n" + error);
           });
         }
       }).catch(function (error) {
+        //Erros ao verificar credenciais
         console.log(error);
       });
+      //Atualizar dados da edição no Firebase
       return currentUserData.update({
         nome: document.getElementById('editNome').value,
         email: document.getElementById('editEmail').value,
@@ -74,16 +90,20 @@ firebase.auth().onAuthStateChanged(function (user) {
         pais: document.getElementById('editEndPais').value
       })
         .then(() => {
-          window.alert("tudo alterado");
+          //Dados alterados no Firebase
+          window.alert("Dados alterados");
+          window.location.reload();
         })
         .catch((error) => {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
+          //Erros ao encontrar o documento (provavelmente não existe)
+          console.log(error);
+          window.alert("Não foi possível alterar seus dados\n" + error);
         });
     }
+    //Listener botão editar
     document.getElementById('btnConfirmEdit').addEventListener('click', confirmEdit);
   } else {
-    // No user is signed in.
+    //Usuário não conectado
     loggedDiv.classList.add('hide');
     loginDiv.classList.remove('hide');
   }
@@ -91,49 +111,132 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 function logar(ev) {
   ev.preventDefault();
+
+  //Inicializar componentes digitados
   var name = document.getElementById("loginName").value;
   var pass = document.getElementById("loginPass").value;
 
-  firebase.auth().signInWithEmailAndPassword(name, pass)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      console.log(user);
+  //Checar se o valor digitado é um CPF
+  db.collection("users").where("cpf", "==", name)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.exists) {
+          //Conectar com CPF
+          var loginCredential = doc.data().email;
+          firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
+            .then((userCredential) => {
+              //Usuário conectado
+              var user = userCredential.user;
+            })
+            .catch((error) => {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+
+              window.alert(errorCode + "\n" + errorMessage);
+            });
+        } else {
+          window.alert("Dados de login inválidos.");
+        }
+      });
     })
     .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      console.log("Erro ao solicitar dados no login com CPF: ", error);
+    });
 
-      window.alert(errorCode + "\n" + errorMessage);
+  //Checar se o valor digitado é um PIS
+  db.collection("users").where("pis", "==", name)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.exists) {
+          //Conectar com PIS
+          var loginCredential = doc.data().email;
+          firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
+            .then((userCredential) => {
+              //Usuário conectado
+              var user = userCredential.user;
+            })
+            .catch((error) => {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+
+              window.alert(errorCode + "\n" + errorMessage);
+            });
+        } else {
+          window.alert("Dados de login inválidos.");
+        }
+      });
+    })
+    .catch((error) => {
+      console.log("Erro ao solicitar dados no login com PIS: ", error);
+    });
+
+  //Checar se o valor digitado é um email
+  db.collection("users").where("email", "==", name)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.exists) {
+          //Conectar com email
+          var loginCredential = doc.data().email;
+          firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
+            .then((userCredential) => {
+              //Usuário conectado
+              var user = userCredential.user;
+            })
+            .catch((error) => {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+
+              window.alert(errorCode + "\n" + errorMessage);
+            });
+        } else {
+          window.alert("Dados de login inválidos.");
+        }
+      });
+    })
+    .catch((error) => {
+      console.log("Erro ao solicitar dados no login com email: ", error);
     });
 }
 
 function deslogar() {
+  //Desconectar
   firebase.auth().signOut();
 }
 
 function deletar() {
   var user = firebase.auth().currentUser;
 
-  db.collection("users").doc(user.uid).delete().then(() => {
-    console.log("Document successfully deleted!");
-    user.delete().then(function () {
-      //User deleted
-    }).catch(function (error) {
-      window.alert(error)
+  if (confirm('Tem certeza que deseja apagar este usuário?')) {
+    //Apagar do Firestore
+    db.collection("users").doc(user.uid).delete().then(() => {
+      console.log("Dados deletados do Firestore");
+      //Apagar do Authenticate
+      user.delete().then(function () {
+        //Usuário apagado do Auth
+        console.log("Dados deletados do Auth");
+      }).catch(function (error) {
+        //Erros ao apagar usuário
+        window.alert("Não foi possível apagar usuário\n" + error);
+      });
+    }).catch((error) => {
+      //Erros ao apagar do Firestore
+      console.error("Erro ao apagar dados do Firestore: ", error);
     });
-  }).catch((error) => {
-    console.error("Error removing document: ", error);
-  });
+  }
 }
 
 function editar() {
+  //Mostrar página de edição
   loggedDiv.classList.add('hide');
   loginDiv.classList.add('hide');
   editDiv.classList.remove('hide');
 }
 
 function voltar() {
+  //Retornar à tela de login
   loggedDiv.classList.remove('hide');
   loginDiv.classList.add('hide');
   editDiv.classList.add('hide');

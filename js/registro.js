@@ -1,7 +1,9 @@
+//Inicializar o Firestore
 var db = firebase.firestore();
 
 function cadastroFirebase(ev) {
     ev.preventDefault();
+    //Construir cadastro
     var userEmail = document.getElementById("cadEmail").value;
     var userPassword = document.getElementById("cadSenha").value;
     var userData = {
@@ -18,13 +20,15 @@ function cadastroFirebase(ev) {
         pais: document.getElementById("cadEndPais").value
     };
 
+    //Cadastrar usuário
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword)
         .then((userCredential) => {
-            // Signed in
+            //Usuário cadastrado
             var user = userCredential.user;
+            //Adicionar usuário ao Firestore
             db.collection("users").doc(user.uid).set(userData)
                 .then(() => {
-                    console.log("Document written with ID: ", user.uid);
+                    //Usuário adicionado ao Firestore
                     window.alert("Cadastrado com sucesso\nRedirecionando...");
                     window.location.replace('index.html');
                 })
@@ -33,6 +37,7 @@ function cadastroFirebase(ev) {
                 });
         })
         .catch((error) => {
+            //Erros ao cadastrar
             var errorCode = error.code;
             var errorMessage = error.message;
 
@@ -41,6 +46,7 @@ function cadastroFirebase(ev) {
 }
 
 function voltar() {
+    //Voltar à pagina anterior
     window.location.replace('index.html');
 }
 
