@@ -12,3 +12,6 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
+
+var port = process.env.PORT || 8080;
+app.listen(port);
