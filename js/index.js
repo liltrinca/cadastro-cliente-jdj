@@ -75,29 +75,52 @@ firebase.auth().onAuthStateChanged(function (user) {
         //Erros ao verificar credenciais
         console.log(error);
       });
+
       //Atualizar dados da edição no Firebase
-      return currentUserData.update({
-        nome: document.getElementById('editNome').value,
-        email: document.getElementById('editEmail').value,
-        cpf: document.getElementById('editCPF').value,
-        pis: document.getElementById('editPIS').value,
-        cep: document.getElementById('editEndCEP').value,
-        rua: document.getElementById('editEndRua').value,
-        numero: document.getElementById('editEndNumero').value,
-        complemento: document.getElementById('editEndComplemento').value,
-        municipio: document.getElementById('editEndMunicipio').value,
-        estado: document.getElementById('editEndEstado').value,
-        pais: document.getElementById('editEndPais').value
-      })
-        .then(() => {
-          //Dados alterados no Firebase
-          window.alert("Dados alterados");
-          window.location.reload();
+      db.collection("users").where("cpf", "==", document.getElementById('editCPF').value).where("email", "!=", user.email)
+        .get()
+        .then((querySnapshot) => {
+          if (querySnapshot.docs.length != 0) {
+            window.alert("CPF já cadastrado!")
+          } else {
+            db.collection("users").where("pis", "==", document.getElementById('editPIS').value).where("email", "!=", user.email)
+              .get()
+              .then((querySnapshot) => {
+                if (querySnapshot.docs.length != 0) {
+                  window.alert("PIS já cadastrado!")
+                } else {
+                  return currentUserData.update({
+                    nome: document.getElementById('editNome').value,
+                    email: document.getElementById('editEmail').value,
+                    cpf: document.getElementById('editCPF').value,
+                    pis: document.getElementById('editPIS').value,
+                    cep: document.getElementById('editEndCEP').value,
+                    rua: document.getElementById('editEndRua').value,
+                    numero: document.getElementById('editEndNumero').value,
+                    complemento: document.getElementById('editEndComplemento').value,
+                    municipio: document.getElementById('editEndMunicipio').value,
+                    estado: document.getElementById('editEndEstado').value,
+                    pais: document.getElementById('editEndPais').value
+                  })
+                    .then(() => {
+                      //Dados alterados no Firebase
+                      window.alert("Dados alterados");
+                      window.location.reload();
+                    })
+                    .catch((error) => {
+                      //Erros ao encontrar o documento (provavelmente não existe)
+                      console.log(error);
+                      window.alert("Não foi possível alterar seus dados\n" + error);
+                    });
+                }
+              })
+              .catch((error) => {
+                console.log("Erro ao solicitar dados ao validar PIS: ", error);
+              });;
+          }
         })
         .catch((error) => {
-          //Erros ao encontrar o documento (provavelmente não existe)
-          console.log(error);
-          window.alert("Não foi possível alterar seus dados\n" + error);
+          console.log("Erro ao solicitar dados ao validar CPF: ", error);
         });
     }
     //Listener botão editar
@@ -109,8 +132,8 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
 });
 
-function logar(ev) {
-  ev.preventDefault();
+function logar(event) {
+  event.preventDefault();
 
   //Inicializar componentes digitados
   var name = document.getElementById("loginName").value;
@@ -120,8 +143,8 @@ function logar(ev) {
   db.collection("users").where("cpf", "==", name)
     .get()
     .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if (doc.exists) {
+      if (querySnapshot.docs.length != 0) {
+        querySnapshot.forEach((doc) => {
           //Conectar com CPF
           var loginCredential = doc.data().email;
           firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
@@ -135,74 +158,71 @@ function logar(ev) {
 
               window.alert(errorCode + "\n" + errorMessage);
             });
-        } else {
-          window.alert("Dados de login inválidos.");
-        }
-      });
+        });
+      } else {
+        //Checar se o valor digitado é um PIS
+        db.collection("users").where("pis", "==", name)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.docs.length != 0) {
+              querySnapshot.forEach((doc) => {
+                //Conectar com PIS
+                var loginCredential = doc.data().email;
+                firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
+                  .then((userCredential) => {
+                    //Usuário conectado
+                    var user = userCredential.user;
+                  })
+                  .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+
+                    window.alert(errorCode + "\n" + errorMessage);
+                  });
+              });
+            } else {
+              //Checar se o valor digitado é um email
+              db.collection("users").where("email", "==", name)
+                .get()
+                .then((querySnapshot) => {
+                  if (querySnapshot.docs.length != 0) {
+                    querySnapshot.forEach((doc) => {
+                      //Conectar com email
+                      var loginCredential = doc.data().email;
+                      firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
+                        .then((userCredential) => {
+                          //Usuário conectado
+                          var user = userCredential.user;
+                        })
+                        .catch((error) => {
+                          var errorCode = error.code;
+                          var errorMessage = error.message;
+
+                          window.alert(errorCode + "\n" + errorMessage);
+                        });
+                    });
+                  } else {
+                    window.alert("Não foi possível efetuar o login\nVerifique os dados e tente novamente.")
+                  }
+                })
+                .catch((error) => {
+                  console.log("Erro ao solicitar dados no login com email: ", error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.log("Erro ao solicitar dados no login com PIS: ", error);
+          });
+      }
     })
     .catch((error) => {
       console.log("Erro ao solicitar dados no login com CPF: ", error);
-    });
-
-  //Checar se o valor digitado é um PIS
-  db.collection("users").where("pis", "==", name)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if (doc.exists) {
-          //Conectar com PIS
-          var loginCredential = doc.data().email;
-          firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
-            .then((userCredential) => {
-              //Usuário conectado
-              var user = userCredential.user;
-            })
-            .catch((error) => {
-              var errorCode = error.code;
-              var errorMessage = error.message;
-
-              window.alert(errorCode + "\n" + errorMessage);
-            });
-        } else {
-          window.alert("Dados de login inválidos.");
-        }
-      });
-    })
-    .catch((error) => {
-      console.log("Erro ao solicitar dados no login com PIS: ", error);
-    });
-
-  //Checar se o valor digitado é um email
-  db.collection("users").where("email", "==", name)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if (doc.exists) {
-          //Conectar com email
-          var loginCredential = doc.data().email;
-          firebase.auth().signInWithEmailAndPassword(loginCredential, pass)
-            .then((userCredential) => {
-              //Usuário conectado
-              var user = userCredential.user;
-            })
-            .catch((error) => {
-              var errorCode = error.code;
-              var errorMessage = error.message;
-
-              window.alert(errorCode + "\n" + errorMessage);
-            });
-        } else {
-          window.alert("Dados de login inválidos.");
-        }
-      });
-    })
-    .catch((error) => {
-      console.log("Erro ao solicitar dados no login com email: ", error);
     });
 }
 
 function deslogar() {
   //Desconectar
+  document.getElementById("loginForm").reset();
   firebase.auth().signOut();
 }
 
@@ -216,6 +236,7 @@ function deletar() {
       //Apagar do Authenticate
       user.delete().then(function () {
         //Usuário apagado do Auth
+        document.getElementById("loginForm").reset();
         console.log("Dados deletados do Auth");
       }).catch(function (error) {
         //Erros ao apagar usuário
@@ -243,7 +264,6 @@ function voltar() {
 }
 
 //Button Listeners
-document.getElementById('btnLogin').addEventListener('click', logar);
 document.getElementById('btnLogout').addEventListener('click', deslogar);
 document.getElementById('btnDeleteUser').addEventListener('click', deletar);
 document.getElementById('btnEdit').addEventListener('click', editar);

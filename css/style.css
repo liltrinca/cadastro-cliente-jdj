@@ -10,7 +10,7 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: #5CB83B
+  background: linear-gradient(90deg, #5CB83B, #11F79F);
 }
 
 input:invalid {
@@ -30,7 +30,11 @@ input:invalid {
 }
 
 p {
-  font-size: 120%
+  font-size: 120%;
+}
+
+span {
+  text-transform: capitalize;
 }
 
 .box input {

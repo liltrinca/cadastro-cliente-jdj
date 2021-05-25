@@ -11,22 +11,22 @@
 <body>
     <div id="cadastroDiv" class="box">
         <h1>Cadastrar-se</h1>
-        <form id="formCadastro">
-            <input id="cadNome" type="text" placeholder="Nome" required>
-            <input id="cadEmail" type="email" placeholder="Email" required>
+        <form id="formCadastro" onsubmit="return cadastroFirebase(event)">
+            <input id="cadNome" type="text" placeholder="Nome" required autocomplete="off">
+            <input id="cadEmail" type="email" placeholder="Email" required autocomplete="off">
             <input id="cadSenha" type="password" placeholder="Senha" required minlength="6" maxlength="30">
-            <input id="cadCPF" type="number" placeholder="CPF" required>
-            <input id="cadPIS" type="number" placeholder="PIS" required>
-            <input id="cadEndCEP" type="number" placeholder="CEP" required>
-            <input id="cadEndRua" type="text" placeholder="Rua" required>
-            <input id="cadEndNumero" type="number" placeholder="Número" required>
-            <input id="cadEndComplemento" type="text" placeholder="Complemento">
-            <input id="cadEndMunicipio" type="text" placeholder="Município" required>
-            <input id="cadEndEstado" type="text" placeholder="Estado" required>
-            <input id="cadEndPais" type="text" placeholder="País" required>
+            <input id="cadCPF" type="number" placeholder="CPF" required autocomplete="off">
+            <input id="cadPIS" type="number" placeholder="PIS" required autocomplete="off">
+            <input id="cadEndCEP" type="number" placeholder="CEP" required autocomplete="off">
+            <input id="cadEndRua" type="text" placeholder="Rua" required autocomplete="off">
+            <input id="cadEndNumero" type="number" placeholder="Número" required autocomplete="off">
+            <input id="cadEndComplemento" type="text" placeholder="Complemento" autocomplete="off">
+            <input id="cadEndMunicipio" type="text" placeholder="Município" required autocomplete="off">
+            <input id="cadEndEstado" type="text" placeholder="Estado" required autocomplete="off">
+            <input id="cadEndPais" type="text" placeholder="País" required autocomplete="off">
             <button id="btnRegistrar">Registrar-se</button>
-            <button id="btnVoltar">Voltar</button>
         </form>
+        <button id="btnVoltar">Voltar</button>
     </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

@@ -11,8 +11,8 @@
 <body>
     <div id="loginDiv" class="box hide">
         <h1>Olá, visitante</h1> <br />
-        <form id="loginForm">
-            <input type="text" id="loginName" placeholder="Email, CPF ou PIS" required>
+        <form id="loginForm" onsubmit="return logar(event)">
+            <input type="text" id="loginName" placeholder="Email, CPF ou PIS" autocomplete="off" minlength="6" required>
             <input type="password" id="loginPass" placeholder="Senha" required>
             <button id="btnLogin">Login</button>
         </form>
@@ -38,7 +38,7 @@
             <p>PIS</p>
             <input id="editPIS" type="number" placeholder="PIS" required>
             <p>Senha</p>
-            <input id="editSenha" type="password" placeholder="Senha" required>
+            <input id="editSenha" type="password" placeholder="Senha">
             <p>CEP</p>
             <input id="editEndCEP" type="number" placeholder="CEP" required>
             <p>Rua</p>
